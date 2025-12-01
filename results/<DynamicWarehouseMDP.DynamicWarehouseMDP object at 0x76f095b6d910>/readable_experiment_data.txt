@@ -1,0 +1,10 @@
+(MDP)
+	<DynamicWarehouseMDP.DynamicWarehouseMDP object at 0x76f095b6d910>
+(Agents)
+	Q-learning,0
+	Random,1
+(Params)
+	instances : 50
+	episodes : 100
+	steps : 200
+	track_disc_reward : False

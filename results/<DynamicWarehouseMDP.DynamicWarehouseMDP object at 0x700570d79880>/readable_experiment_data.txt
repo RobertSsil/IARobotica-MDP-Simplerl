@@ -1,9 +1,0 @@
-(MDP)
-	<DynamicWarehouseMDP.DynamicWarehouseMDP object at 0x700570d79880>
-(Agents)
-	Q-Robo-Dinamico,0
-(Params)
-	instances : 1
-	episodes : 5000
-	steps : 200
-	track_disc_reward : False
