@@ -1,31 +1,25 @@
+# File: StaticWarehouseMDP.py
 from simple_rl.mdp.MDPClass import MDP
-import random
-import numpy as np
 from simple_rl.mdp.StateClass import State 
 
-# Definições do Ambiente 7x6 (baseado na imagem)
+# Definições do Ambiente 7x6
 WIDTH, HEIGHT = 7, 6 
-GOAL_POS = (WIDTH - 1, 0) # (6, 0) - Canto inferior direito (Alvo no MDP)
-START_POS = (0, HEIGHT - 1) # (0, 5) - Canto superior esquerdo (Robô no MDP)
+GOAL_POS = (WIDTH - 1, 0) # (6, 0) - Alvo
+START_POS = (0, HEIGHT - 1) # (0, 5) - Início
 
-# Posições dos obstáculos fixos (Baseado na imagem anexa, com (0,0) no canto inferior esquerdo)
+# Posições dos obstáculos fixos
 OBSTACLE_POS = [
-    (1, 5), # Coluna 1, linha superior
-    (1, 3), # Coluna 1, linha intermediária
-    (1, 1), # Coluna 1, linha inferior
+    (1, 5), (1, 3), (1, 1), 
+    (3, 4), (4, 4), 
+    (5, 1), (6, 1), 
+]
 
-    (3, 4), # Coluna 3
-    (4, 4), # Coluna 4
-    
-    (5, 1), # Coluna 5 (inferior)
-    
-    (6, 1), # Coluna 6 (próximo ao alvo)
-] 
+def manhattan_distance(loc1, loc2):
+    return abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[1])
 
 
 class StaticWarehouseMDP(MDP):
     def __init__(self, width=WIDTH, height=HEIGHT, goal_locs=[GOAL_POS], init_loc=START_POS):
-        
         self.width = width
         self.height = height
         self.goal_locs = goal_locs
@@ -33,7 +27,6 @@ class StaticWarehouseMDP(MDP):
         self.init_loc = init_loc
 
         actions = ["NORTH", "SOUTH", "EAST", "WEST"]
-        
         init_state = State(init_loc)
         
         MDP.__init__(self, 
@@ -41,7 +34,7 @@ class StaticWarehouseMDP(MDP):
                      init_state=init_state,
                      transition_func=self.get_next_state,
                      reward_func=self.get_reward,
-                     gamma=0.9) 
+                     gamma=0.95) 
 
     def is_goal_state(self, state):
         return state.data in self.goal_locs
@@ -50,14 +43,33 @@ class StaticWarehouseMDP(MDP):
         return loc in self.obstacles
 
     def get_reward(self, state, action, next_state):
-        
-        if self.is_goal_state(next_state): 
-            return 10.0
-            
-        return -0.1
+
+        if self.is_goal_state(next_state):
+            return 500.0
+
+        reward = -1.0
+
+        curr = state.data
+        nxt = next_state.data
+        goal = self.goal_locs[0]
+
+        if nxt == curr:
+            reward -= 3.0
+
+        if self.is_obstacle(nxt):
+            reward -= 10.0
+
+        d_before = manhattan_distance(curr, goal)
+        d_after = manhattan_distance(nxt, goal)
+
+        if d_after < d_before:
+            reward += 2.0
+        else:
+            reward -= 2.0
+
+        return reward
         
     def get_next_state(self, state, action):
-        
         rx, ry = state.data 
         
         if self.is_goal_state(state):

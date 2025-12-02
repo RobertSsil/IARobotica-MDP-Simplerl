@@ -1,0 +1,9 @@
+(MDP)
+	<StaticWarehouseMDP.StaticWarehouseMDP object at 0x7ba15f2faba0>
+(Agents)
+	Q-Robo-Estatico,0
+(Params)
+	instances : 1
+	episodes : 5000
+	steps : 500
+	track_disc_reward : False

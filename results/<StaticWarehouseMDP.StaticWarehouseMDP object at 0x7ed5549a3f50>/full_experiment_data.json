@@ -1,0 +1,79 @@
+{
+    "MDP": {
+        "name": "<class 'StaticWarehouseMDP.StaticWarehouseMDP'>",
+        "params": {
+            "width": 7,
+            "height": 6,
+            "obstacles": [
+                {
+                    "__tuple__": true,
+                    "items": [
+                        1,
+                        5
+                    ]
+                },
+                {
+                    "__tuple__": true,
+                    "items": [
+                        1,
+                        3
+                    ]
+                },
+                {
+                    "__tuple__": true,
+                    "items": [
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "__tuple__": true,
+                    "items": [
+                        3,
+                        4
+                    ]
+                },
+                {
+                    "__tuple__": true,
+                    "items": [
+                        4,
+                        4
+                    ]
+                },
+                {
+                    "__tuple__": true,
+                    "items": [
+                        5,
+                        1
+                    ]
+                },
+                {
+                    "__tuple__": true,
+                    "items": [
+                        6,
+                        1
+                    ]
+                }
+            ]
+        }
+    },
+    "AGENTS": {
+        "<class 'simple_rl.agents.QLearningAgentClass.QLearningAgent'>": {
+            "params": {
+                "alpha": 0.7,
+                "gamma": 0.99,
+                "epsilon": 0.1,
+                "anneal": false,
+                "explore": "uniform"
+            },
+            "index": 0
+        }
+    },
+    "MISC": {
+        "instances": 1,
+        "episodes": 1000,
+        "steps": 500,
+        "track_disc_reward": false
+    },
+    "FUNC": "run_agents_on_mdp"
+}
